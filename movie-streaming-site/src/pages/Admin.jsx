@@ -32,7 +32,7 @@ const EMPTY_MOVIE = {
   maturity: '',
   audio: '',
   subtitles: '',
-  fileUrl: '',
+  magnetUri: '',
   fileFormat: '',
   resolution: '',
   isActive: true,
@@ -57,7 +57,7 @@ const MOVIE_JSON_TEMPLATE = [
     maturity: '13+',
     audio: 'English',
     subtitles: 'English, Amharic',
-    fileUrl: 'https://example.com/path/to/video.mp4',
+    magnetUri: 'magnet:?xt=urn:btih:YOUR_TORRENT_HASH_HERE',
     fileFormat: 'mp4',
     resolution: '1080p',
     isActive: true,
@@ -243,7 +243,7 @@ function MoviesPanel({ adminId }) {
       maturity: movie.maturity || '',
       audio: movie.audio || '',
       subtitles: movie.subtitles || '',
-      fileUrl: movie.content?.fileUrl || '',
+      magnetUri: movie.content?.magnetUri || '',
       fileFormat: movie.content?.fileFormat || '',
       resolution: movie.content?.resolution || '',
       isActive: movie.content?.isActive ?? true,
@@ -467,7 +467,7 @@ function MoviesPanel({ adminId }) {
                     )}
                   </td>
                   <td>
-                    {movie.content?.fileUrl ? (
+                    {movie.content?.magnetUri ? (
                       <span className="admin-badge admin-badge-active">Linked</span>
                     ) : (
                       <span className="admin-badge admin-badge-muted">None</span>
@@ -588,11 +588,14 @@ function MoviesPanel({ adminId }) {
               </div>
 
               <hr className="admin-divider" />
-              <p className="admin-subheading">Video file (optional)</p>
+              <p className="admin-subheading">
+                Video torrent (optional)
+                <span className="admin-subtle"> — paste the magnet link; leave blank to remove the video.</span>
+              </p>
               <div className="admin-form-grid">
                 <label className="admin-span-2">
-                  File URL
-                  <input name="fileUrl" value={form.fileUrl} onChange={handleChange} placeholder="https://... or /media/..." />
+                  Magnet link
+                  <input name="magnetUri" value={form.magnetUri} onChange={handleChange} placeholder="magnet:?xt=urn:btih:..." />
                 </label>
                 <label>
                   Format
@@ -658,7 +661,7 @@ function MoviesPanel({ adminId }) {
     "maturity": "13+",
     "audio": "English",
     "subtitles": "English, Amharic",
-    "fileUrl": "https://example.com/path/to/video.mp4",
+    "magnetUri": "magnet:?xt=urn:btih:YOUR_TORRENT_HASH_HERE",
     "fileFormat": "mp4",
     "resolution": "1080p",
     "isActive": true

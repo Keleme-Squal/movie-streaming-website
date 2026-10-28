@@ -4,7 +4,7 @@ import { Navbar } from '../components/Navbar'
 import { useHomeMovies } from '../hooks/useHomeMovies'
 import { useFavoriteIds } from '../hooks/useFavoriteIds'
 import { toggleFavorite } from '../data/favorites'
-import playerVideo from '../data/type-vid.mp4'
+import { TorrentVideo } from '../components/TorrentVideo'
 import './Player.css'
 import Footerbar from '../components/Footerbar'
 
@@ -40,11 +40,6 @@ function Player() {
     return <p>{categorizedMovies.length > 0 ? 'Movie not found' : 'Loading movie…'}</p>;
   }
 
-  // Prefer the real file attached in the Admin panel / movie_content table.
-  // Falls back to the local placeholder clip for movies that don't have a
-  // file linked yet (e.g. freshly TMDB-synced titles you haven't filled in).
-  const videoSrc = movie.content?.fileUrl || playerVideo
-
   const handleFavoriteClick = async () => {
     if (!user) {
       alert('Please log in to save favorites.')
@@ -67,13 +62,10 @@ function Player() {
         <div className="player-layout">
           <div className="player-stage">
             <div className="player-screen" aria-label={`${movie.title} player placeholder`}>
-              <video
-                className="player-video"
-                src={videoSrc}
+              <TorrentVideo
+                key={movie.id}
+                magnetUri={movie.content?.magnetUri}
                 poster={movie.poster}
-                muted
-                controls
-                playsInline
               />
             </div>
           </div>
